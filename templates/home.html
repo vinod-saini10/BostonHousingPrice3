@@ -1,118 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>ML API</title>
+
+    <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css?family=Pacifico"
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Arimo&display=swap"
       rel="stylesheet"
-      type="text/css"
     />
-    <link
-      href="https://fonts.googleapis.com/css?family=Arimo"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Hind:300"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"
-      rel="stylesheet"
-      type="text/css"
-    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Arimo', sans-serif;
+        height: 100vh;
+        background: linear-gradient(270deg, #1e3c72, #2a5298);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .bubble {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        animation: float 20s infinite;
+        z-index: 0;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) scale(0.5);
+        }
+        100% {
+          transform: translateY(-10vh) scale(1.2);
+        }
+      }
+
+      .login {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 450px;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      }
+
+      h1 {
+        font-family: 'Pacifico', cursive;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 28px;
+      }
+
+      input[type='text'] {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 15px;
+        background-color: #0047ab;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      button:hover {
+        background-color: #003580;
+      }
+
+      ::placeholder {
+        color: #555;
+      }
+
+      /* Responsive tweaks */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 24px;
+        }
+
+        input[type='text'] {
+          font-size: 14px;
+        }
+
+        button {
+          font-size: 16px;
+        }
+      }
+    </style>
   </head>
 
   <body>
+    <!-- Bubbles -->
+    <script>
+      for (let i = 0; i < 25; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        const size = Math.random() * 60 + 20;
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+        bubble.style.left = Math.random() * 100 + 'vw';
+        bubble.style.animationDuration = 10 + Math.random() * 15 + 's';
+        bubble.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(bubble);
+      }
+    </script>
+
     <div class="login">
       <h1>Boston House Price Prediction</h1>
 
-      <!-- Main Input For Receiving Query to our ML -->
-      <form action="{{ url_for('predict')}}" method="post">
-        <input
-          type="text"
-          name="CRIM"
-          placeholder="CRIM"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="ZN"
-          placeholder="ZN"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="INDUS"
-          placeholder="INDUS"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="CHAS"
-          placeholder="CHAS"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="NOX"
-          placeholder="NOX"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="RM"
-          placeholder="RM"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="Age"
-          placeholder="Age"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="DIS"
-          placeholder="DIS"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="RAD"
-          placeholder="RAD"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="TAX"
-          placeholder="TAX"
-          required="required"
-        /><br />
-        <input
-          type="text"
-          name="PTRATIO"
-          placeholder="PTRATIO"
-          required="required"
-        /><br />
-        <input type="text" name="B" placeholder="B" required="required" /><br />
-        <input
-          type="text"
-          name="LSTAT"
-          placeholder="LSTAT"
-          required="required"
-        /><br />
+      <form action="{{ url_for('predict') }}" method="post">
+        <input type="text" name="CRIM" placeholder="CRIM" required /><br />
+        <input type="text" name="ZN" placeholder="ZN" required /><br />
+        <input type="text" name="INDUS" placeholder="INDUS" required /><br />
+        <input type="text" name="CHAS" placeholder="CHAS" required /><br />
+        <input type="text" name="NOX" placeholder="NOX" required /><br />
+        <input type="text" name="RM" placeholder="RM" required /><br />
+        <input type="text" name="Age" placeholder="Age" required /><br />
+        <input type="text" name="DIS" placeholder="DIS" required /><br />
+        <input type="text" name="RAD" placeholder="RAD" required /><br />
+        <input type="text" name="TAX" placeholder="TAX" required /><br />
+        <input type="text" name="PTRATIO" placeholder="PTRATIO" required /><br />
+        <input type="text" name="B" placeholder="B" required /><br />
+        <input type="text" name="LSTAT" placeholder="LSTAT" required /><br />
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">
-          Predict
-        </button>
+        <button type="submit">Predict</button>
       </form>
 
       <br />
-      <br />
+      {{ prediction_text }}
     </div>
-    {{prediction_text}}
   </body>
 </html>
